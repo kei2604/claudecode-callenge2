@@ -13,6 +13,7 @@
   :root {
     --bg: #fdf8ee;
     --surface: #ffffff;
+    
     --ink: #2b2620;
     --ink-soft: #7a7266;
     --border: #ece3d2;
@@ -972,9 +973,187 @@
   @media (min-width: 480px) {
     .hero-title { font-size: 28px; }
   }
+
+  /* ---------- auth gate ---------- */
+
+  .auth-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: linear-gradient(155deg, var(--green) 0%, #1f5c3a 100%);
+    overflow: hidden;
+  }
+
+  .auth-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.5;
+  }
+
+  .auth-card {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    background: var(--surface);
+    border-radius: 26px;
+    padding: 34px 26px 28px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    text-align: center;
+  }
+
+  .auth-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    border-radius: 16px;
+    background: var(--green-soft);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-icon svg { width: 26px; height: 26px; }
+
+  .auth-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  .auth-title {
+    margin-top: 8px;
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  .auth-desc {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .auth-form { margin-top: 22px; text-align: left; }
+
+  .auth-form label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .auth-input-wrap { position: relative; }
+
+  .auth-form input[type="password"],
+  .auth-form input[type="text"] {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 13px 44px 13px 15px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    font-family: inherit;
+    letter-spacing: 0.03em;
+  }
+
+  .auth-form input:focus { outline: none; border-color: var(--green); }
+
+  .auth-toggle {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    bottom: 0;
+    width: 38px;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-toggle svg { width: 18px; height: 18px; }
+
+  .auth-error {
+    margin-top: 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--coral);
+    background: var(--coral-soft);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: none;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .auth-error.show { display: flex; }
+  .auth-error svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .auth-submit {
+    margin-top: 16px;
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    padding: 14px;
+    background: var(--green);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: filter 0.2s ease, transform 0.15s ease;
+  }
+
+  .auth-submit:hover { filter: brightness(1.06); }
+  .auth-submit:active { transform: translateY(1px); }
+  .auth-submit svg { width: 16px; height: 16px; }
+
+  .auth-card.shake { animation: authShake 0.4s ease; }
+
+  @keyframes authShake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-5px); }
+    40%, 60% { transform: translateX(5px); }
+  }
 </style>
 </head>
 <body>
+
+  <div class="auth-screen" id="authScreen">
+    <div class="auth-card" id="authCard">
+      <div class="auth-icon" id="authIcon"></div>
+      <p class="auth-eyebrow">Family Only</p>
+      <h1 class="auth-title heading-font">家族専用 東北旅行プラン</h1>
+      <p class="auth-desc">このページの旅行プランは家族限定です。パスワードを入力してください。</p>
+      <form class="auth-form" id="authForm">
+        <label for="authPassword">パスワード</label>
+        <div class="auth-input-wrap">
+          <input type="password" id="authPassword" autocomplete="off" placeholder="パスワードを入力">
+          <button type="button" class="auth-toggle" id="authToggle" aria-label="パスワードを表示"></button>
+        </div>
+        <p class="auth-error" id="authError"></p>
+        <button type="submit" class="auth-submit" id="authSubmit"></button>
+      </form>
+    </div>
+  </div>
+
+  <div id="tripApp" style="display:none;">
 
   <header class="hero">
     <div class="hero-inner">
@@ -1113,6 +1292,8 @@
     </button>
   </nav>
 
+  </div>
+
 <script>
   /* ================= icons ================= */
   const ICONS = {
@@ -1133,7 +1314,61 @@
     close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>',
     chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>',
     calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>',
+    lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>',
+    eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+    eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.4 10.4 0 0 1 12 20c-6.4 0-10-8-10-8a18.4 18.4 0 0 1 4.2-5.2M9.9 5.2A9.6 9.6 0 0 1 12 5c6.4 0 10 7 10 7a18.6 18.6 0 0 1-2.2 3.2M14.1 14.1a3 3 0 1 1-4.2-4.2"></path><path d="M2 2l20 20"></path></svg>',
+    alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>',
   };
+
+  /* ================= password gate ================= */
+  (function () {
+    const TRIP_PASSWORD = '2026Tohoku';
+    const SESSION_KEY = 'tohokuTripUnlocked';
+
+    const authScreen = document.getElementById('authScreen');
+    const tripApp = document.getElementById('tripApp');
+    const authForm = document.getElementById('authForm');
+    const authPassword = document.getElementById('authPassword');
+    const authError = document.getElementById('authError');
+    const authCard = document.getElementById('authCard');
+    const authToggle = document.getElementById('authToggle');
+    const authSubmit = document.getElementById('authSubmit');
+
+    document.getElementById('authIcon').innerHTML = ICONS.lock;
+    authToggle.innerHTML = ICONS.eye;
+    authSubmit.innerHTML = ICONS.lock + '<span>旅行プランを見る</span>';
+    authError.innerHTML = ICONS.alert + '<span>パスワードが違います</span>';
+
+    function unlock() {
+      authScreen.style.display = 'none';
+      tripApp.style.display = '';
+      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) { /* storage unavailable */ }
+    }
+
+    if ((() => { try { return sessionStorage.getItem(SESSION_KEY) === '1'; } catch (e) { return false; } })()) {
+      unlock();
+    }
+
+    authToggle.addEventListener('click', () => {
+      const showing = authPassword.type === 'text';
+      authPassword.type = showing ? 'password' : 'text';
+      authToggle.innerHTML = showing ? ICONS.eye : ICONS.eyeOff;
+    });
+
+    authForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (authPassword.value === TRIP_PASSWORD) {
+        unlock();
+      } else {
+        authError.classList.add('show');
+        authCard.classList.remove('shake');
+        void authCard.offsetWidth;
+        authCard.classList.add('shake');
+        authPassword.value = '';
+        authPassword.focus();
+      }
+    });
+  })();
 
   const TYPE_LABEL = { sight: '観光', food: '食事', hotel: '宿泊', drive: '移動', waypoint: '立ち寄り', shop: '買い物', arrive: '到着' };
 

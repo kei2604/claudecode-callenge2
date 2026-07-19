@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node test.js)",
+      "Bash(kill %1)",
+      "Bash(jobs -l)"
+    ]
+  }
+}

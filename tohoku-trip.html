@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="2026年8月12日〜16日、家族4人で車で行く東北旅行プラン。埼玉から会津芦ノ牧温泉・岩手・秋田・青森を巡る4泊5日の旅程と費用を管理できます。">
+<meta name="theme-color" content="#2f7a4f">
+<title>夏の東北家族旅行プラン | 埼玉→福島→岩手→秋田→青森</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf8ee;
+    --surface: #ffffff;
+    --ink: #2b2620;
+    --ink-soft: #7a7266;
+    --border: #ece3d2;
+    --green: #2f7a4f;
+    --green-soft: #e5f2ea;
+    --amber: #db8a3c;
+    --amber-soft: #fbeedd;
+    --blue: #2b7fb0;
+    --blue-soft: #e4f1f7;
+    --purple: #7c6bb5;
+    --purple-soft: #efeaf9;
+    --coral: #d1637a;
+    --coral-soft: #fbe6ea;
+    --sun: #e8912b;
+    --sun-soft: #fbecd4;
+    --radius: 18px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding-bottom: 92px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .num { font-family: "Space Grotesk", "Noto Sans JP", sans-serif; }
+  .heading-font { font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif; }
+
+  button { font-family: inherit; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* ---------- header ---------- */
+
+  .hero {
+    background: linear-gradient(155deg, var(--green) 0%, #1f5c3a 100%);
+    color: #fff;
+    padding: 30px 16px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.5;
+  }
+
+  .hero-inner {
+    position: relative;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    color: #cfe9d9;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-badges {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hero-badges .badge {
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .route {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .route .stop {
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+
+  .route .arrow { opacity: 0.7; font-size: 12px; }
+
+  /* ---------- content card shell ---------- */
+
+  .view { margin-top: -22px; }
+  .view.hidden { display: none; }
+
+  .section-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    padding: 20px 16px 26px;
+    box-shadow: 0 18px 44px rgba(43, 38, 32, 0.09);
+  }
+
+  .panel-title {
+    font-size: 18px;
+    font-weight: 900;
+    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  }
+
+  .panel-desc {
+    margin-top: 4px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* ---------- day tabs ---------- */
+
+  .day-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 16px 2px 6px;
+    scrollbar-width: none;
+  }
+
+  .day-tabs::-webkit-scrollbar { display: none; }
+
+  .day-tab {
+    flex-shrink: 0;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    color: var(--ink-soft);
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 11px 16px;
+    border-radius: 16px;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  .day-tab span {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+
+  .day-tab.active {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  /* ---------- schedule cards ---------- */
+
+  .day-date {
+    margin-top: 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 0.02em;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .spot-card {
+    display: flex;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 15px;
+    background: var(--surface);
+  }
+
+  .spot-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spot-icon svg { width: 19px; height: 19px; }
+
+  .type-sight    .spot-icon { background: var(--green-soft); color: var(--green); }
+  .type-food     .spot-icon { background: var(--coral-soft); color: var(--coral); }
+  .type-hotel    .spot-icon { background: var(--purple-soft); color: var(--purple); }
+  .type-drive    .spot-icon { background: var(--blue-soft); color: var(--blue); }
+  .type-waypoint .spot-icon { background: var(--amber-soft); color: var(--amber); }
+  .type-shop     .spot-icon { background: var(--sun-soft); color: var(--sun); }
+  .type-arrive   .spot-icon { background: var(--green-soft); color: var(--green); }
+
+  .spot-body { flex: 1; min-width: 0; }
+
+  .spot-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  .type-tag { padding: 2px 9px; border-radius: 999px; font-size: 10.5px; }
+
+  .type-sight    .type-tag { background: var(--green-soft); color: var(--green); }
+  .type-food     .type-tag { background: var(--coral-soft); color: var(--coral); }
+  .type-hotel    .type-tag { background: var(--purple-soft); color: var(--purple); }
+  .type-drive    .type-tag { background: var(--blue-soft); color: var(--blue); }
+  .type-waypoint .type-tag { background: var(--amber-soft); color: var(--amber); }
+  .type-shop     .type-tag { background: var(--sun-soft); color: var(--sun); }
+  .type-arrive   .type-tag { background: var(--green-soft); color: var(--green); }
+
+  .spot-title { margin-top: 6px; font-size: 15.5px; font-weight: 700; }
+
+  .spot-desc {
+    margin-top: 3px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  .map-btn {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: none;
+    transition: filter 0.2s ease, transform 0.15s ease;
+  }
+
+  .map-btn:hover { filter: brightness(0.96); transform: translateY(-1px); }
+  .map-btn svg { width: 14px; height: 14px; }
+
+  .type-sight    .map-btn { color: var(--green);  background: var(--green-soft); }
+  .type-food     .map-btn { color: var(--coral);  background: var(--coral-soft); }
+  .type-hotel    .map-btn { color: var(--purple); background: var(--purple-soft); }
+  .type-drive    .map-btn { color: var(--blue);   background: var(--blue-soft); }
+  .type-waypoint .map-btn { color: var(--amber);  background: var(--amber-soft); }
+  .type-shop     .map-btn { color: var(--sun);    background: var(--sun-soft); }
+  .type-arrive   .map-btn { color: var(--green);  background: var(--green-soft); }
+
+  /* ---------- info fields (waypoint / hotel / food detail) ---------- */
+
+  .info-fields {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+  }
+
+  .info-field.full { grid-column: 1 / -1; }
+
+  .info-field label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+
+  .info-field input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    font-family: inherit;
+  }
+
+  .info-field input:focus { outline: none; border-color: var(--green); }
+
+  /* ---------- photo slot (single) ---------- */
+
+  .photo-slot { margin-top: 12px; }
+
+  .photo-label {
+    display: block;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1.5px dashed var(--border);
+    cursor: pointer;
+  }
+
+  .photo-preview { width: 100%; height: 150px; object-fit: cover; display: none; }
+
+  .photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 150px;
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--amber-soft), var(--green-soft));
+  }
+
+  .photo-placeholder svg { width: 26px; height: 26px; opacity: 0.55; }
+
+  .photo-slot.has-photo .photo-preview { display: block; }
+  .photo-slot.has-photo .photo-placeholder { display: none; }
+
+  .photo-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: none;
+  }
+
+  .photo-slot.has-photo .photo-remove { display: flex; }
+  .photo-remove svg { width: 14px; height: 14px; }
+
+  /* ---------- drive card ---------- */
+
+  .drive-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: 8px;
+  }
+
+  .drive-field.full { grid-column: 1 / -1; }
+
+  .drive-field label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+
+  .drive-field input[type="time"],
+  .drive-field input[type="text"] {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+    font-family: inherit;
+  }
+
+  .drive-field .unit-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 9px;
+  }
+
+  .drive-field .unit-wrap input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    text-align: right;
+    font-size: 12.5px;
+    font-weight: 700;
+    font-family: "Space Grotesk", inherit;
+    color: var(--ink);
+  }
+
+  .drive-field .unit-wrap input:focus,
+  .drive-field input:focus { outline: none; }
+  .drive-field .unit-wrap:focus-within,
+  .drive-field input:focus { border-color: var(--blue); }
+
+  .drive-field .unit-mini { font-size: 10.5px; color: var(--ink-soft); flex-shrink: 0; }
+
+  .fuel-box {
+    margin-top: 12px;
+    background: var(--blue-soft);
+    border-radius: 14px;
+    padding: 12px;
+  }
+
+  .fuel-box-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  /* ---------- day summary (schedule tab, read-only rollup) ---------- */
+
+  .day-summary {
+    margin-top: 4px;
+    background: linear-gradient(135deg, var(--green-soft), var(--amber-soft));
+    border-radius: 20px;
+    padding: 18px;
+  }
+
+  .day-summary-title {
+    font-size: 14px;
+    font-weight: 900;
+    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .day-summary-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .day-summary-item {
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 13px;
+    padding: 10px 12px;
+  }
+
+  .day-summary-item .k { font-size: 10.5px; color: var(--ink-soft); font-weight: 700; }
+  .day-summary-item .v { margin-top: 3px; font-size: 15px; font-weight: 700; color: var(--ink); }
+
+  .day-summary-total {
+    margin-top: 10px;
+    background: var(--green);
+    color: #fff;
+    border-radius: 14px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+  }
+
+  .day-summary-total .v { font-size: 20px; }
+
+  /* ---------- journal ---------- */
+
+  .journal-box { margin-top: 14px; padding: 0 2px; }
+
+  .journal-box-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+
+  .journal-box textarea {
+    width: 100%;
+    min-height: 84px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 13px 14px;
+    font-size: 13.5px;
+    font-family: inherit;
+    color: var(--ink);
+    resize: vertical;
+  }
+
+  .journal-box textarea:focus { outline: none; border-color: var(--green); }
+
+  .journal-photos {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .journal-thumb {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 1;
+  }
+
+  .journal-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .thumb-del {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    border: none;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .journal-add-tile {
+    aspect-ratio: 1;
+    border: 1.5px dashed var(--border);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--ink-soft);
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .journal-add-tile svg { width: 18px; height: 18px; }
+
+  /* ---------- budget ---------- */
+
+  .budget-total {
+    margin-top: 16px;
+    background: linear-gradient(135deg, var(--green), #1f5c3a);
+    color: #fff;
+    border-radius: 22px;
+    padding: 22px;
+    text-align: center;
+  }
+
+  .budget-goal-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.9;
+    margin-bottom: 10px;
+  }
+
+  .budget-goal-row input {
+    width: 116px;
+    text-align: right;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 9px;
+    padding: 6px 9px;
+    color: #fff;
+    font-family: "Space Grotesk", inherit;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .budget-goal-row input:focus { outline: none; border-color: #fff; }
+
+  .budget-total .label { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; opacity: 0.85; }
+  .budget-total .amount { margin-top: 6px; font-size: 36px; font-weight: 700; }
+
+  .stat-grid {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .stat-tile { background: rgba(255, 255, 255, 0.14); border-radius: 14px; padding: 12px; }
+  .stat-tile .k { font-size: 10.5px; opacity: 0.85; font-weight: 600; }
+  .stat-tile .v { margin-top: 3px; font-size: 17px; font-weight: 700; }
+  .stat-tile.over .v { color: #ffdede; }
+
+  .cost-category { margin-top: 22px; }
+
+  .cost-category-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+
+  .cat-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: var(--green-soft);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .cat-icon svg { width: 12px; height: 12px; }
+
+  /* ---------- day accordion (budget tab) ---------- */
+
+  .day-acc {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+
+  .day-acc-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px 16px;
+    background: var(--bg);
+    border: none;
+    text-align: left;
+  }
+
+  .day-acc-head .name { font-size: 14px; font-weight: 700; }
+  .day-acc-head .name span { display: block; font-size: 11px; font-weight: 500; color: var(--ink-soft); margin-top: 2px; }
+  .day-acc-head .total { font-size: 15.5px; font-weight: 700; color: var(--green); flex-shrink: 0; }
+  .day-acc-head .chev { flex-shrink: 0; width: 18px; height: 18px; color: var(--ink-soft); transition: transform 0.25s ease; }
+  .day-acc.open .day-acc-head .chev { transform: rotate(180deg); }
+
+  .day-acc-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    padding: 0 16px;
+  }
+
+  .day-acc.open .day-acc-body { max-height: 1200px; padding: 4px 16px 18px; }
+
+  .auto-chip-row { display: flex; gap: 8px; margin-bottom: 12px; }
+
+  .auto-chip { flex: 1; background: var(--blue-soft); color: var(--blue); border-radius: 12px; padding: 9px 11px; }
+  .auto-chip .k { font-size: 10.5px; font-weight: 700; }
+  .auto-chip .v { display: block; font-size: 14.5px; font-weight: 700; margin-top: 2px; }
+
+  .cost-rows { display: flex; flex-direction: column; gap: 8px; }
+
+  .cost-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 11px 12px;
+  }
+
+  .cost-row .cost-label { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .cost-row .cost-input-wrap { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+
+  .cost-row input[type="number"] {
+    width: 100px;
+    text-align: right;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Space Grotesk", inherit;
+    color: var(--ink);
+  }
+
+  .cost-row input[type="number"]:focus { outline: none; border-color: var(--green); }
+  .unit { font-size: 12px; color: var(--ink-soft); }
+
+  .icon-btn {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .icon-btn:hover { background: var(--coral-soft); color: var(--coral); }
+  .icon-btn svg { width: 15px; height: 15px; }
+
+  .budget-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 10px 12px;
+  }
+
+  .budget-row input[type="text"] {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    flex: 1;
+    min-width: 0;
+    font-family: inherit;
+  }
+
+  .budget-row input[type="text"]:focus { outline: none; }
+
+  .budget-amount-wrap { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+  .budget-row input[type="number"] {
+    width: 92px;
+    text-align: right;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Space Grotesk", inherit;
+    color: var(--ink);
+  }
+
+  .budget-row input[type="number"]:focus { outline: none; border-color: var(--green); }
+
+  .other-empty { font-size: 12.5px; color: var(--ink-soft); padding: 10px 2px; }
+
+  .add-row-btn {
+    margin-top: 14px;
+    width: 100%;
+    border: 1.5px dashed var(--border);
+    background: transparent;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .add-row-btn:hover { background: var(--green-soft); border-color: var(--green); }
+  .add-row-btn svg { width: 16px; height: 16px; }
+
+  /* ---------- packing ---------- */
+
+  .progress-wrap { margin-top: 16px; display: flex; align-items: center; gap: 12px; }
+  .progress-track { flex: 1; height: 9px; background: var(--border); border-radius: 999px; overflow: hidden; }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), #58ab7c);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  .progress-text { font-size: 12.5px; font-weight: 700; color: var(--ink-soft); flex-shrink: 0; }
+
+  .packing-list { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+
+  .packing-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 13px;
+  }
+
+  .check-box {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .check-box svg { width: 14px; height: 14px; opacity: 0; transition: opacity 0.15s ease; }
+
+  .packing-row.checked .check-box { background: var(--green); border-color: var(--green); }
+  .packing-row.checked .check-box svg { opacity: 1; }
+  .packing-row.checked .packing-label { color: var(--ink-soft); text-decoration: line-through; }
+
+  .packing-label { flex: 1; font-size: 14px; font-weight: 500; cursor: pointer; }
+
+  .add-input-row { margin-top: 14px; display: flex; gap: 8px; }
+
+  .add-input-row input[type="text"] {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 15px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+  }
+
+  .add-input-row input[type="text"]:focus { outline: none; border-color: var(--green); }
+
+  .add-submit-btn {
+    flex-shrink: 0;
+    width: 52px;
+    border-radius: 14px;
+    border: none;
+    background: var(--green);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .add-submit-btn svg { width: 20px; height: 20px; }
+
+  /* ---------- wishlist ---------- */
+
+  .wish-list { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+  .wish-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 13px 14px;
+  }
+
+  .wish-icon {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: var(--coral-soft);
+    color: var(--coral);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wish-icon svg { width: 18px; height: 18px; }
+  .wish-name { flex: 1; font-size: 14.5px; font-weight: 700; min-width: 0; word-break: break-word; }
+  .wish-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+  .wish-map-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    border: none;
+    background: var(--green-soft);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wish-map-btn svg { width: 16px; height: 16px; }
+
+  .empty-note {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding: 20px;
+    border: 1.5px dashed var(--border);
+    border-radius: 16px;
+  }
+
+  /* ---------- bottom nav ---------- */
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+  }
+
+  .nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 8px 4px;
+    border-radius: 14px;
+    font-size: 10.5px;
+    font-weight: 700;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .nav-btn svg { width: 22px; height: 22px; }
+  .nav-btn.active { color: var(--green); background: var(--green-soft); }
+
+  @media (min-width: 480px) {
+    .hero-title { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Family Tohoku Road Trip</p>
+      <h1 class="hero-title heading-font">夏の東北家族旅行プラン</h1>
+      <div class="hero-badges">
+        <span class="badge">📅 2026.8.12〜8.16</span>
+        <span class="badge">🚗 4泊5日・車移動</span>
+        <span class="badge">👪 家族4人</span>
+      </div>
+      <div class="route">
+        <span class="stop">埼玉</span><span class="arrow">→</span>
+        <span class="stop">福島</span><span class="arrow">→</span>
+        <span class="stop">岩手</span><span class="arrow">→</span>
+        <span class="stop">秋田</span><span class="arrow">→</span>
+        <span class="stop">青森</span><span class="arrow">→</span>
+        <span class="stop">埼玉</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ---------------- schedule view ---------------- -->
+    <section class="view" id="view-schedule">
+      <div class="section-panel">
+        <h2 class="panel-title">旅行スケジュール</h2>
+        <p class="panel-desc">埼玉から車で出発し、会津芦ノ牧温泉・岩手のわんこそばを経て、秋田・青森を巡る4泊5日の家族旅行です。</p>
+
+        <div class="day-tabs" id="dayTabs"></div>
+        <p class="day-date" id="dayDate"></p>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+
+    <!-- ---------------- budget view ---------------- -->
+    <section class="view hidden" id="view-budget">
+      <div class="section-panel">
+        <h2 class="panel-title">旅行費用の管理</h2>
+        <p class="panel-desc">日ごとに費用を入力すると、1日ごとの合計・旅行総額・1人あたりの金額・残り予算が自動で計算されます。</p>
+
+        <div class="budget-total">
+          <div class="budget-goal-row">
+            <span>設定予算</span>
+            <input type="number" id="goalInput" min="0" step="1000">
+            <span>円</span>
+          </div>
+          <div class="label">現在の旅行総額</div>
+          <div class="amount num" id="budgetTotal">¥0</div>
+          <div class="stat-grid">
+            <div class="stat-tile">
+              <div class="k">1人あたり（4人）</div>
+              <div class="v num" id="perPersonAmount">¥0</div>
+            </div>
+            <div class="stat-tile" id="remainTile">
+              <div class="k">残り予算</div>
+              <div class="v num" id="remainAmount">¥0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cost-category">
+          <div class="cost-category-title"><span class="cat-icon" id="icon-calendar-slot"></span>1日ごとの費用</div>
+          <div id="dayAccordions"></div>
+        </div>
+
+        <div class="cost-category">
+          <div class="cost-category-title"><span class="cat-icon" id="icon-other-slot"></span>その他（自由入力）</div>
+          <div class="budget-row-list" id="otherList"></div>
+          <button class="add-row-btn" id="addOtherRow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+            費用項目を追加
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------- packing view ---------------- -->
+    <section class="view hidden" id="view-packing">
+      <div class="section-panel">
+        <h2 class="panel-title">持ち物チェックリスト</h2>
+        <p class="panel-desc">家族4人での夏の車移動向けの持ち物リストです。準備できたらチェックしましょう。</p>
+
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-text" id="progressText">0 / 0</div>
+        </div>
+
+        <div class="packing-list" id="packingList"></div>
+
+        <div class="add-input-row">
+          <input type="text" id="packingInput" placeholder="持ち物を追加（例：カメラ）">
+          <button class="add-submit-btn" id="packingAddBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------- wishlist view ---------------- -->
+    <section class="view hidden" id="view-wishlist">
+      <div class="section-panel">
+        <h2 class="panel-title">行きたい場所リスト</h2>
+        <p class="panel-desc">気になるスポットを追加して、旅の候補地として残しておけます。</p>
+
+        <div class="add-input-row">
+          <input type="text" id="wishInput" placeholder="行きたい場所を入力（例：十和田湖）">
+          <button class="add-submit-btn" id="wishAddBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </button>
+        </div>
+
+        <div class="wish-list" id="wishList"></div>
+        <p class="empty-note" id="wishEmpty" style="display:none;">まだ登録された場所がありません。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-view="schedule">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"></rect><path d="M3 10h18M8 2v4M16 2v4"></path></svg>
+      スケジュール
+    </button>
+    <button class="nav-btn" data-view="budget">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18M16 14h2"></path></svg>
+      費用
+    </button>
+    <button class="nav-btn" data-view="packing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+      持ち物
+    </button>
+    <button class="nav-btn" data-view="wishlist">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+      行きたい場所
+    </button>
+  </nav>
+
+<script>
+  /* ================= icons ================= */
+  const ICONS = {
+    sight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3-4 6h16l-4-6"></path><path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"></path><path d="M9 21v-6h6v6"></path></svg>',
+    food: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v6a2 2 0 0 0 2 2v12"></path><path d="M11 2v8"></path><path d="M15 2v20"></path><path d="M15 2a4 4 0 0 0-4 4v2"></path></svg>',
+    hotel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20V6"></path><path d="M2 11h18a2 2 0 0 1 2 2v7"></path><path d="M2 17h20"></path><circle cx="7" cy="8" r="1.6"></circle></svg>',
+    drive: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="12" rx="2"></rect><path d="M4 11h16"></path><circle cx="8" cy="19" r="1.6"></circle><circle cx="16" cy="19" r="1.6"></circle></svg>',
+    onsen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5c0 1.4-1.4 1.4-1.4 2.8S6 7.6 6 9"></path><path d="M11 2.5c0 1.4-1.4 1.4-1.4 2.8S11 7.6 11 9"></path><path d="M16 2.5c0 1.4-1.4 1.4-1.4 2.8S16 7.6 16 9"></path><ellipse cx="11" cy="16.5" rx="8" ry="4"></ellipse></svg>',
+    bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg>',
+    home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"></path><path d="M5 10v10h14V10"></path><path d="M9 20v-6h6v6"></path></svg>',
+    pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+    route: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2.2"></circle><circle cx="18" cy="5" r="2.2"></circle><path d="M8 19h7a4 4 0 0 0 4-4 4 4 0 0 0-4-4H9a4 4 0 0 1-4-4 4 4 0 0 1 4-4h7"></path></svg>',
+    trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>',
+    heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>',
+    camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-2h6l2 2h3v11H4Z"></path><circle cx="12" cy="13.5" r="3.2"></circle></svg>',
+    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>',
+    close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>',
+    chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>',
+    calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>',
+  };
+
+  const TYPE_LABEL = { sight: '観光', food: '食事', hotel: '宿泊', drive: '移動', waypoint: '立ち寄り', shop: '買い物', arrive: '到着' };
+
+  document.getElementById('icon-calendar-slot').innerHTML = ICONS.calendar;
+  document.getElementById('icon-other-slot').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle></svg>';
+
+  function mapUrl(query) {
+    return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+  }
+
+  function mapDirUrl(origin, destination) {
+    return 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(origin) + '&destination=' + encodeURIComponent(destination) + '&travelmode=driving';
+  }
+
+  /* ================= storage helpers ================= */
+  function loadJSON(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage unavailable */ }
+  }
+
+  function resizeImageFile(file, maxDim, quality) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+          if (width > maxDim || height > maxDim) {
+            if (width > height) { height = Math.round(height * maxDim / width); width = maxDim; }
+            else { width = Math.round(width * maxDim / height); height = maxDim; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = reader.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function yen(n) { return '¥' + Math.round(n || 0).toLocaleString('ja-JP'); }
+
+  function formatMinutes(min) {
+    const m = Math.max(0, Math.round(min || 0));
+    const h = Math.floor(m / 60);
+    const r = m % 60;
+    if (h <= 0) return `${r}分`;
+    return `${h}時間${r > 0 ? r + '分' : ''}`;
+  }
+
+  /* ================= route data ================= */
+  const ROUTE = [
+    {
+      id: 'day1', label: '1日目', dateLabel: '8/12（水）', sub: '埼玉 → 福島 → 岩手',
+      segments: [
+        { id: 'd1-drive1', type: 'drive', from: '埼玉県（自宅）', to: '会津芦ノ牧温泉 大川荘', mapFrom: '埼玉県', mapTo: '会津芦ノ牧温泉 大川荘',
+          driveDefaults: { depTime: '06:00', arrTime: '09:30', distanceKm: 190, durationMin: 210, restStop: '磐越自動車道 SAで休憩', toll: 4000, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd1-oyakawaso', type: 'waypoint', title: '会津芦ノ牧温泉 大川荘', query: '会津芦ノ牧温泉 大川荘',
+          desc: '渓谷沿いの絶景露天風呂が自慢の老舗温泉旅館。休憩がてら日帰り入浴やお食事で旅の疲れを癒やす。',
+          infoFields: [
+            { key: 'address', label: '住所', placeholder: '福島県会津若松市大戸町芦ノ牧温泉' },
+            { key: 'phone', label: '電話番号', placeholder: '0242-92-2011', type: 'tel' },
+            { key: 'checkin', label: 'チェックイン／利用時間', placeholder: '例：11:00〜 日帰り入浴', full: true },
+          ] },
+        { id: 'd1-drive2', type: 'drive', from: '大川荘', to: '盛岡市内', mapFrom: '会津芦ノ牧温泉 大川荘', mapTo: '盛岡駅',
+          driveDefaults: { depTime: '11:30', arrTime: '16:00', distanceKm: 280, durationMin: 270, restStop: '東北自動車道 前沢SAで休憩', toll: 7000, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd1-wanko', type: 'food', title: '盛岡でわんこそば', query: '東家 本店 盛岡 わんこそば', mapQueryField: 'storeName',
+          desc: '岩手名物わんこそばに挑戦！家族で何杯食べられるか記録に挑戦。',
+          infoFields: [
+            { key: 'storeName', label: '店名', placeholder: '東家 本店' },
+            { key: 'reserveTime', label: '予約時間', placeholder: '例：17:30〜' },
+            { key: 'address', label: '住所', placeholder: '岩手県盛岡市中ノ橋通1-8-3', full: true },
+          ] },
+        { id: 'd1-hotel', type: 'hotel', title: '1日目の宿（岩手県内）', query: '盛岡 ホテル', mapQueryField: 'name',
+          desc: '盛岡近郊で1泊。翌日は岩手観光からスタートします。',
+          infoFields: [
+            { key: 'name', label: 'ホテル名', placeholder: '例：ホテルメトロポリタン盛岡' },
+            { key: 'address', label: '住所', placeholder: '' },
+            { key: 'phone', label: '電話番号', placeholder: '', type: 'tel' },
+            { key: 'checkin', label: 'チェックイン', placeholder: '例：15:00〜' },
+          ] },
+      ],
+    },
+    {
+      id: 'day2', label: '2日目', dateLabel: '8/13（木）', sub: '岩手 → 秋田',
+      segments: [
+        { id: 'd2-sight1', type: 'sight', title: '盛岡城跡公園（岩手公園）', query: '盛岡城跡公園', desc: '石垣が美しい旧盛岡城跡。夏の緑が映える散策スポット。' },
+        { id: 'd2-sight2', type: 'sight', title: '岩手銀行赤レンガ館', query: '岩手銀行赤レンガ館', desc: 'レトロな赤レンガ建築を見学。写真スポットとしても人気。' },
+        { id: 'd2-sight3', type: 'sight', title: '小岩井農場まきば園', query: '小岩井農場まきば園', desc: '広大な牧場で朝の涼しい空気を満喫。ソフトクリームも人気。' },
+        { id: 'd2-drive1', type: 'drive', from: '盛岡', to: '田沢湖', mapFrom: '盛岡駅', mapTo: '田沢湖',
+          driveDefaults: { depTime: '12:30', arrTime: '13:40', distanceKm: 60, durationMin: 70, restStop: '', toll: 0, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd2-sight4', type: 'sight', title: '田沢湖（たつこ像）', query: '田沢湖 たつこ像', desc: '日本一の水深を誇る神秘的な湖。金色のたつこ像が目印。' },
+        { id: 'd2-food1', type: 'food', title: '田沢湖畔で昼食', query: '田沢湖 レストラン', desc: '湖を眺めながら地元食材のランチ。' },
+        { id: 'd2-sight5', type: 'sight', title: '角館武家屋敷通り', query: '角館武家屋敷通り', desc: '「みちのくの小京都」と呼ばれる武家屋敷の街並みを散策。' },
+        { id: 'd2-drive2', type: 'drive', from: '角館', to: '秋田市内', mapFrom: '角館駅', mapTo: '秋田駅',
+          driveDefaults: { depTime: '17:00', arrTime: '18:00', distanceKm: 50, durationMin: 60, restStop: '', toll: 1500, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd2-hotel', type: 'hotel', title: '2日目の宿（秋田県内）', query: '秋田駅 ホテル', mapQueryField: 'name',
+          desc: '秋田駅周辺で1泊。翌日は秋田観光からスタートします。',
+          infoFields: [
+            { key: 'name', label: 'ホテル名', placeholder: '例：アパホテル秋田駅前' },
+            { key: 'address', label: '住所', placeholder: '' },
+            { key: 'phone', label: '電話番号', placeholder: '', type: 'tel' },
+            { key: 'checkin', label: 'チェックイン', placeholder: '例：15:00〜' },
+          ] },
+      ],
+    },
+    {
+      id: 'day3', label: '3日目', dateLabel: '8/14（金）', sub: '秋田 → 青森',
+      segments: [
+        { id: 'd3-sight1', type: 'sight', title: '千秋公園（久保田城跡）', query: '千秋公園 秋田', desc: '秋田藩主佐竹氏の居城跡。緑豊かな公園を散策。' },
+        { id: 'd3-food1', type: 'food', title: 'きりたんぽ鍋ランチ', query: '秋田 きりたんぽ鍋 専門店', desc: '秋田名物きりたんぽ鍋を専門店で味わう。' },
+        { id: 'd3-drive1', type: 'drive', from: '秋田', to: '弘前', mapFrom: '秋田駅', mapTo: '弘前駅',
+          driveDefaults: { depTime: '13:00', arrTime: '14:50', distanceKm: 120, durationMin: 110, restStop: '', toll: 3000, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd3-sight2', type: 'sight', title: '弘前城・弘前公園', query: '弘前城 弘前公園', desc: '津軽藩の名城。緑に囲まれた公園を散策。' },
+        { id: 'd3-sight3', type: 'sight', title: '弘前れんが倉庫美術館', query: '弘前れんが倉庫美術館', desc: '築100年超のれんが倉庫を改装した現代美術館。' },
+        { id: 'd3-drive2', type: 'drive', from: '弘前', to: '青森市内', mapFrom: '弘前駅', mapTo: '青森駅',
+          driveDefaults: { depTime: '17:00', arrTime: '17:50', distanceKm: 40, durationMin: 50, restStop: '', toll: 1000, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd3-hotel', type: 'hotel', title: '3日目の宿（青森県内）', query: '青森駅 ホテル', mapQueryField: 'name',
+          desc: '青森駅周辺で1泊。翌日は青森観光からスタートします。',
+          infoFields: [
+            { key: 'name', label: 'ホテル名', placeholder: '例：青森センターホテル' },
+            { key: 'address', label: '住所', placeholder: '' },
+            { key: 'phone', label: '電話番号', placeholder: '', type: 'tel' },
+            { key: 'checkin', label: 'チェックイン', placeholder: '例：15:00〜' },
+          ] },
+      ],
+    },
+    {
+      id: 'day4', label: '4日目', dateLabel: '8/15（土）', sub: '青森 → 福島',
+      segments: [
+        { id: 'd4-sight1', type: 'sight', title: '三内丸山遺跡', query: '三内丸山遺跡', desc: '縄文時代の大規模集落跡。史跡公園でスケール感を体感。' },
+        { id: 'd4-sight2', type: 'sight', title: '青森県立美術館', query: '青森県立美術館', desc: '奈良美智の作品なども展示される個性的な美術館。' },
+        { id: 'd4-food1', type: 'food', title: '青森魚菜センター（のっけ丼）', query: '青森魚菜センター のっけ丼', desc: '好きな具材をご飯にのせるオリジナル海鮮丼。' },
+        { id: 'd4-sight3', type: 'sight', title: 'ねぶたの家 ワ・ラッセ', query: 'ねぶたの家 ワ・ラッセ', desc: '青森ねぶた祭の迫力ある山車を間近で見学。' },
+        { id: 'd4-drive1', type: 'drive', from: '青森', to: '福島県（郡山方面）', mapFrom: '青森駅', mapTo: '福島県郡山市',
+          driveDefaults: { depTime: '14:00', arrTime: '20:00', distanceKm: 480, durationMin: 360, restStop: '岩手山SA・国見SAなどで休憩', toll: 11000, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd4-hotel', type: 'hotel', title: '4日目の宿（帰路・福島県内）', query: '郡山 ホテル', mapQueryField: 'name',
+          desc: '帰路の中間地点で1泊。翌日は埼玉まで戻ります。',
+          infoFields: [
+            { key: 'name', label: 'ホテル名', placeholder: '例：郡山ビジネスホテル' },
+            { key: 'address', label: '住所', placeholder: '' },
+            { key: 'phone', label: '電話番号', placeholder: '', type: 'tel' },
+            { key: 'checkin', label: 'チェックイン', placeholder: '例：18:00〜' },
+          ] },
+      ],
+    },
+    {
+      id: 'day5', label: '5日目', dateLabel: '8/16（日）', sub: '福島 → 埼玉',
+      segments: [
+        { id: 'd5-drive1', type: 'drive', from: '福島（前泊地）', to: '那須高原サービスエリア', mapFrom: '郡山', mapTo: '那須高原サービスエリア',
+          driveDefaults: { depTime: '09:00', arrTime: '10:00', distanceKm: 70, durationMin: 60, restStop: '', toll: 1500, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd5-shop1', type: 'shop', title: '那須高原SAでお土産購入・休憩', query: '那須高原サービスエリア', desc: '家族へのお土産を選びながら、旅の最後の休憩タイム。' },
+        { id: 'd5-drive2', type: 'drive', from: '那須高原サービスエリア', to: '埼玉県（自宅）', mapFrom: '那須高原サービスエリア', mapTo: '埼玉県',
+          driveDefaults: { depTime: '11:00', arrTime: '12:40', distanceKm: 110, durationMin: 100, restStop: '', toll: 2500, fuelLocation: '', fuelLiters: 0, fuelCost: 0 } },
+        { id: 'd5-arrive', type: 'arrive', title: '埼玉県 到着・帰宅', query: '埼玉県', desc: '4泊5日の東北旅行、お疲れ様でした！' },
+      ],
+    },
+  ];
+
+  const PEOPLE_COUNT = 4;
+
+  /* ================= state ================= */
+  const DRIVE_KEY = 'tohoku-trip:drive';
+  const INFO_KEY = 'tohoku-trip:info';
+  const PHOTO_KEY = 'tohoku-trip:photos';
+  const JOURNAL_KEY = 'tohoku-trip:journal';
+  const COSTS_KEY = 'tohoku-trip:costs';
+  const OTHER_KEY = 'tohoku-trip:other';
+  const GOAL_KEY = 'tohoku-trip:goal';
+
+  const savedDrive = loadJSON(DRIVE_KEY, {});
+  const driveData = {};
+  const infoData = loadJSON(INFO_KEY, {});
+  const photoData = loadJSON(PHOTO_KEY, {});
+  const journalData = loadJSON(JOURNAL_KEY, {});
+  const costs = loadJSON(COSTS_KEY, {});
+  let otherItems = loadJSON(OTHER_KEY, []);
+  let budgetGoal = loadJSON(GOAL_KEY, 300000);
+
+  const COST_FIELDS = ['parking', 'hotel', 'breakfast', 'lunch', 'dinner', 'cafe', 'sightseeing', 'souvenir', 'misc'];
+  const COST_LABELS = {
+    parking: '駐車場代', hotel: 'ホテル代', breakfast: '朝食', lunch: '昼食', dinner: '夕食',
+    cafe: 'カフェ・おやつ', sightseeing: '観光費', souvenir: 'お土産代', misc: '雑費',
+  };
+
+  ROUTE.forEach(day => {
+    if (!costs[day.id]) costs[day.id] = {};
+    COST_FIELDS.forEach(f => { if (costs[day.id][f] === undefined) costs[day.id][f] = 0; });
+    day.segments.forEach(seg => {
+      if (seg.type === 'drive') {
+        driveData[seg.id] = Object.assign({}, seg.driveDefaults, savedDrive[seg.id] || {});
+      }
+      if (seg.infoFields) {
+        if (!infoData[seg.id]) infoData[seg.id] = {};
+        seg.infoFields.forEach(f => { if (infoData[seg.id][f.key] === undefined) infoData[seg.id][f.key] = ''; });
+      }
+      if (!journalData[day.id]) journalData[day.id] = { text: '', photos: [] };
+    });
+  });
+
+  function persistDrive() { saveJSON(DRIVE_KEY, driveData); }
+  function persistInfo() { saveJSON(INFO_KEY, infoData); }
+  function persistPhotos() { saveJSON(PHOTO_KEY, photoData); }
+  function persistJournal() { saveJSON(JOURNAL_KEY, journalData); }
+  function persistCosts() { saveJSON(COSTS_KEY, costs); }
+  function persistOther() { saveJSON(OTHER_KEY, otherItems); }
+  function persistGoal() { saveJSON(GOAL_KEY, budgetGoal); }
+
+  /* ================= calculations ================= */
+  function driveSegmentsOfDay(day) { return day.segments.filter(s => s.type === 'drive'); }
+
+  function dayDistanceKm(day) {
+    return driveSegmentsOfDay(day).reduce((sum, s) => sum + (Number(driveData[s.id].distanceKm) || 0), 0);
+  }
+
+  function dayDurationMin(day) {
+    return driveSegmentsOfDay(day).reduce((sum, s) => sum + (Number(driveData[s.id].durationMin) || 0), 0);
+  }
+
+  function dayTollAuto(day) {
+    return driveSegmentsOfDay(day).reduce((sum, s) => sum + (Number(driveData[s.id].toll) || 0), 0);
+  }
+
+  function dayGasAuto(day) {
+    return driveSegmentsOfDay(day).reduce((sum, s) => sum + (Number(driveData[s.id].fuelCost) || 0), 0);
+  }
+
+  function dayMealsManual(day) {
+    const c = costs[day.id];
+    return (Number(c.breakfast) || 0) + (Number(c.lunch) || 0) + (Number(c.dinner) || 0) + (Number(c.cafe) || 0);
+  }
+
+  function dayManualTotal(day) {
+    const c = costs[day.id];
+    return COST_FIELDS.reduce((sum, f) => sum + (Number(c[f]) || 0), 0);
+  }
+
+  function dayTotal(day) {
+    return dayManualTotal(day) + dayTollAuto(day) + dayGasAuto(day);
+  }
+
+  function otherTotal() {
+    return otherItems.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+  }
+
+  function tripTotal() {
+    return ROUTE.reduce((sum, day) => sum + dayTotal(day), 0) + otherTotal();
+  }
+
+  /* ================= schedule rendering ================= */
+  const dayTabsEl = document.getElementById('dayTabs');
+  const dayDateEl = document.getElementById('dayDate');
+  const timelineEl = document.getElementById('timeline');
+  let activeDay = 0;
+
+  function renderDayTabs() {
+    dayTabsEl.innerHTML = ROUTE.map((d, i) => `
+      <button class="day-tab ${i === activeDay ? 'active' : ''}" data-day="${i}">
+        ${d.label}<span>${d.dateLabel}</span>
+      </button>
+    `).join('');
+    dayTabsEl.querySelectorAll('.day-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeDay = Number(btn.dataset.day);
+        renderDayTabs();
+        renderTimeline();
+      });
+    });
+  }
+
+  function segmentMapQuery(seg) {
+    if (seg.mapQueryField) {
+      const val = (infoData[seg.id] && infoData[seg.id][seg.mapQueryField]) || '';
+      if (val.trim()) return val.trim();
+    }
+    return seg.query;
+  }
+
+  function renderInfoFields(seg) {
+    if (!seg.infoFields) return '';
+    const data = infoData[seg.id] || {};
+    return `<div class="info-fields">${seg.infoFields.map(f => `
+      <div class="info-field ${f.full ? 'full' : ''}">
+        <label>${f.label}</label>
+        <input type="${f.type || 'text'}" data-info="${seg.id}" data-key="${f.key}" value="${String(data[f.key] || '').replace(/"/g, '&quot;')}" placeholder="${f.placeholder || ''}">
+      </div>
+    `).join('')}</div>`;
+  }
+
+  function renderPhotoSlot(seg) {
+    const has = !!photoData[seg.id];
+    return `
+      <div class="photo-slot ${has ? 'has-photo' : ''}" data-photo-slot="${seg.id}">
+        <label class="photo-label">
+          <input type="file" accept="image/*" class="photo-input" data-photo-input="${seg.id}" hidden>
+          <img class="photo-preview" src="${has ? photoData[seg.id] : ''}">
+          <span class="photo-placeholder">${ICONS.camera}<span>施設イメージを追加</span></span>
+        </label>
+        <button class="photo-remove" data-photo-remove="${seg.id}" type="button">${ICONS.close}</button>
+      </div>
+    `;
+  }
+
+  function renderDriveCard(seg) {
+    const d = driveData[seg.id];
+    return `
+      <div class="spot-card type-drive" data-seg="${seg.id}">
+        <div class="spot-icon">${ICONS.drive}</div>
+        <div class="spot-body">
+          <div class="spot-meta"><span class="type-tag">移動</span></div>
+          <div class="spot-title">${seg.from} → ${seg.to}</div>
+          <div class="drive-grid">
+            <div class="drive-field"><label>出発時間</label><input type="time" data-drive="${seg.id}" data-field="depTime" value="${d.depTime}"></div>
+            <div class="drive-field"><label>到着予定</label><input type="time" data-drive="${seg.id}" data-field="arrTime" value="${d.arrTime}"></div>
+            <div class="drive-field"><label>走行距離</label><div class="unit-wrap"><input type="number" data-drive="${seg.id}" data-field="distanceKm" value="${d.distanceKm}" min="0"><span class="unit-mini">km</span></div></div>
+            <div class="drive-field"><label>所要時間</label><div class="unit-wrap"><input type="number" data-drive="${seg.id}" data-field="durationMin" value="${d.durationMin}" min="0"><span class="unit-mini">分</span></div></div>
+          </div>
+          <div class="drive-grid">
+            <div class="drive-field full"><label>休憩予定</label><input type="text" data-drive="${seg.id}" data-field="restStop" value="${String(d.restStop || '').replace(/"/g, '&quot;')}" placeholder="例：〇〇SAで休憩"></div>
+          </div>
+          <div class="drive-grid">
+            <div class="drive-field"><label>高速道路料金</label><div class="unit-wrap"><input type="number" data-drive="${seg.id}" data-field="toll" value="${d.toll}" min="0" step="100"><span class="unit-mini">円</span></div></div>
+          </div>
+          <div class="fuel-box">
+            <div class="fuel-box-title">⛽ 給油記録</div>
+            <div class="drive-grid">
+              <div class="drive-field"><label>給油した場所</label><input type="text" data-drive="${seg.id}" data-field="fuelLocation" value="${String(d.fuelLocation || '').replace(/"/g, '&quot;')}" placeholder="例：〇〇SA"></div>
+              <div class="drive-field"><label>給油量</label><div class="unit-wrap"><input type="number" data-drive="${seg.id}" data-field="fuelLiters" value="${d.fuelLiters}" min="0" step="0.1"><span class="unit-mini">L</span></div></div>
+              <div class="drive-field"><label>金額</label><div class="unit-wrap"><input type="number" data-drive="${seg.id}" data-field="fuelCost" value="${d.fuelCost}" min="0" step="100"><span class="unit-mini">円</span></div></div>
+            </div>
+          </div>
+          <a class="map-btn" href="${mapDirUrl(seg.mapFrom, seg.mapTo)}" target="_blank" rel="noopener noreferrer">${ICONS.route} ルートをGoogleマップで開く</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderInfoCard(seg, iconKey) {
+    return `
+      <div class="spot-card type-${seg.type}" data-seg="${seg.id}">
+        <div class="spot-icon">${ICONS[iconKey]}</div>
+        <div class="spot-body">
+          <div class="spot-meta"><span class="type-tag">${TYPE_LABEL[seg.type]}</span></div>
+          <div class="spot-title">${seg.title}</div>
+          <p class="spot-desc">${seg.desc || ''}</p>
+          ${renderPhotoSlot(seg)}
+          ${renderInfoFields(seg)}
+          <a class="map-btn" id="mapbtn-${seg.id}" href="${mapUrl(segmentMapQuery(seg))}" target="_blank" rel="noopener noreferrer">${ICONS.pin} Googleマップで開く</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderSimpleCard(seg, iconKey) {
+    return `
+      <div class="spot-card type-${seg.type}" data-seg="${seg.id}">
+        <div class="spot-icon">${ICONS[iconKey]}</div>
+        <div class="spot-body">
+          <div class="spot-meta"><span class="type-tag">${TYPE_LABEL[seg.type]}</span></div>
+          <div class="spot-title">${seg.title}</div>
+          <p class="spot-desc">${seg.desc || ''}</p>
+          <a class="map-btn" href="${mapUrl(seg.query)}" target="_blank" rel="noopener noreferrer">${ICONS.pin} Googleマップで開く</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderSegment(seg) {
+    if (seg.type === 'drive') return renderDriveCard(seg);
+    if (seg.type === 'waypoint') return renderInfoCard(seg, 'onsen');
+    if (seg.type === 'hotel') return renderInfoCard(seg, 'hotel');
+    if (seg.type === 'food' && seg.infoFields) return renderInfoCard(seg, 'food');
+    if (seg.type === 'food') return renderSimpleCard(seg, 'food');
+    if (seg.type === 'shop') return renderSimpleCard(seg, 'bag');
+    if (seg.type === 'arrive') return renderSimpleCard(seg, 'home');
+    return renderSimpleCard(seg, 'sight');
+  }
+
+  function renderDaySummary(day) {
+    const distance = dayDistanceKm(day);
+    const duration = dayDurationMin(day);
+    const toll = dayTollAuto(day);
+    const gas = dayGasAuto(day);
+    const meals = dayMealsManual(day);
+    const misc = Number(costs[day.id].misc) || 0;
+    const total = dayTotal(day);
+    return `
+      <div class="day-summary">
+        <div class="day-summary-title">${ICONS.route} ${day.label}のまとめ</div>
+        <div class="day-summary-grid">
+          <div class="day-summary-item"><div class="k">走行距離</div><div class="v num" id="sum-distance">${distance.toLocaleString('ja-JP')} km</div></div>
+          <div class="day-summary-item"><div class="k">運転時間</div><div class="v num" id="sum-duration">${formatMinutes(duration)}</div></div>
+          <div class="day-summary-item"><div class="k">高速料金</div><div class="v num" id="sum-toll">${yen(toll)}</div></div>
+          <div class="day-summary-item"><div class="k">ガソリン代</div><div class="v num" id="sum-gas">${yen(gas)}</div></div>
+          <div class="day-summary-item"><div class="k">食事代</div><div class="v num" id="sum-meals">${yen(meals)}</div></div>
+          <div class="day-summary-item"><div class="k">雑費</div><div class="v num" id="sum-misc">${yen(misc)}</div></div>
+        </div>
+        <div class="day-summary-total">
+          <span>${day.label}の合計費用</span>
+          <span class="v num" id="sum-total">${yen(total)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderJournal(day) {
+    const j = journalData[day.id];
+    const photosHtml = j.photos.map((src, i) => `
+      <div class="journal-thumb"><img src="${src}"><button class="thumb-del" data-journal-del="${day.id}" data-idx="${i}" type="button">${ICONS.close}</button></div>
+    `).join('');
+    return `
+      <div class="journal-box">
+        <div class="journal-box-title">${day.label}の感想</div>
+        <textarea id="journalText" data-journal-text="${day.id}" placeholder="今日の思い出やハプニングを書き残しておきましょう…">${j.text}</textarea>
+        <div class="journal-photos" id="journalPhotos">
+          ${photosHtml}
+          <label class="journal-add-tile">
+            <input type="file" accept="image/*" class="journal-photo-input" data-journal-add="${day.id}" hidden>
+            ${ICONS.plus}<span>写真を追加</span>
+          </label>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderTimeline() {
+    const day = ROUTE[activeDay];
+    dayDateEl.textContent = `${day.dateLabel}　${day.sub}`;
+    timelineEl.innerHTML = day.segments.map(renderSegment).join('')
+      + renderDaySummary(day)
+      + renderJournal(day);
+  }
+
+  function refreshDaySummaryDisplay(day) {
+    setText('sum-distance', dayDistanceKm(day).toLocaleString('ja-JP') + ' km');
+    setText('sum-duration', formatMinutes(dayDurationMin(day)));
+    setText('sum-toll', yen(dayTollAuto(day)));
+    setText('sum-gas', yen(dayGasAuto(day)));
+    setText('sum-meals', yen(dayMealsManual(day)));
+    setText('sum-misc', yen(Number(costs[day.id].misc) || 0));
+    setText('sum-total', yen(dayTotal(day)));
+  }
+
+  /* ---- delegated events within the timeline ---- */
+  timelineEl.addEventListener('input', e => {
+    const target = e.target;
+    const activeRouteDay = ROUTE[activeDay];
+
+    if (target.dataset.drive) {
+      const segId = target.dataset.drive;
+      const field = target.dataset.field;
+      const isNumberField = target.type === 'number';
+      driveData[segId][field] = isNumberField ? (Number(target.value) || 0) : target.value;
+      persistDrive();
+      refreshDaySummaryDisplay(activeRouteDay);
+      refreshBudgetComputed();
+      return;
+    }
+
+    if (target.dataset.info) {
+      const segId = target.dataset.info;
+      const key = target.dataset.key;
+      infoData[segId][key] = target.value;
+      persistInfo();
+      const seg = activeRouteDay.segments.find(s => s.id === segId);
+      if (seg && seg.mapQueryField === key) {
+        const btn = document.getElementById('mapbtn-' + segId);
+        if (btn) btn.setAttribute('href', mapUrl(segmentMapQuery(seg)));
+      }
+      return;
+    }
+
+    if (target.dataset.journalText) {
+      const dayId = target.dataset.journalText;
+      journalData[dayId].text = target.value;
+      persistJournal();
+      return;
+    }
+  });
+
+  timelineEl.addEventListener('click', e => {
+    const removeBtn = e.target.closest('[data-photo-remove]');
+    if (removeBtn) {
+      const segId = removeBtn.dataset.photoRemove;
+      delete photoData[segId];
+      persistPhotos();
+      const slot = timelineEl.querySelector(`[data-photo-slot="${segId}"]`);
+      if (slot) {
+        slot.classList.remove('has-photo');
+        slot.querySelector('.photo-preview').src = '';
+      }
+      return;
+    }
+
+    const delBtn = e.target.closest('[data-journal-del]');
+    if (delBtn) {
+      const dayId = delBtn.dataset.journalDel;
+      const idx = Number(delBtn.dataset.idx);
+      journalData[dayId].photos.splice(idx, 1);
+      persistJournal();
+      renderTimeline();
+      return;
+    }
+  });
+
+  timelineEl.addEventListener('change', e => {
+    const photoInput = e.target.closest('[data-photo-input]');
+    if (photoInput && photoInput.files && photoInput.files[0]) {
+      const segId = photoInput.dataset.photoInput;
+      resizeImageFile(photoInput.files[0], 900, 0.72).then(dataUrl => {
+        photoData[segId] = dataUrl;
+        persistPhotos();
+        const slot = timelineEl.querySelector(`[data-photo-slot="${segId}"]`);
+        if (slot) {
+          slot.classList.add('has-photo');
+          slot.querySelector('.photo-preview').src = dataUrl;
+        }
+      });
+      return;
+    }
+
+    const journalInput = e.target.closest('[data-journal-add]');
+    if (journalInput && journalInput.files && journalInput.files[0]) {
+      const dayId = journalInput.dataset.journalAdd;
+      resizeImageFile(journalInput.files[0], 900, 0.72).then(dataUrl => {
+        journalData[dayId].photos.push(dataUrl);
+        persistJournal();
+        renderTimeline();
+      });
+    }
+  });
+
+  renderDayTabs();
+  renderTimeline();
+
+  /* ================= budget rendering ================= */
+  const budgetTotalEl = document.getElementById('budgetTotal');
+  const perPersonEl = document.getElementById('perPersonAmount');
+  const remainEl = document.getElementById('remainAmount');
+  const remainTileEl = document.getElementById('remainTile');
+  const goalInput = document.getElementById('goalInput');
+  const dayAccordionsEl = document.getElementById('dayAccordions');
+  const otherListEl = document.getElementById('otherList');
+
+  goalInput.value = budgetGoal;
+  goalInput.addEventListener('input', () => {
+    budgetGoal = Number(goalInput.value) || 0;
+    persistGoal();
+    refreshBudgetComputed();
+  });
+
+  function renderDayAccordions() {
+    dayAccordionsEl.innerHTML = ROUTE.map((day, i) => `
+      <div class="day-acc ${i === 0 ? 'open' : ''}" data-acc="${day.id}">
+        <button class="day-acc-head" data-acc-toggle="${day.id}" type="button">
+          <span class="name">${day.label}<span>${day.dateLabel}・${day.sub}</span></span>
+          <span class="total num" id="acc-total-${day.id}">${yen(dayTotal(day))}</span>
+          <span class="chev">${ICONS.chev}</span>
+        </button>
+        <div class="day-acc-body">
+          <div class="auto-chip-row">
+            <div class="auto-chip"><span class="k">高速料金（移動区間から自動計算）</span><span class="v num" id="acc-toll-${day.id}">${yen(dayTollAuto(day))}</span></div>
+            <div class="auto-chip"><span class="k">ガソリン代（給油記録から自動計算）</span><span class="v num" id="acc-gas-${day.id}">${yen(dayGasAuto(day))}</span></div>
+          </div>
+          <div class="cost-rows">
+            ${COST_FIELDS.filter(f => f !== 'misc').map(f => `
+              <div class="cost-row">
+                <span class="cost-label">${COST_LABELS[f]}</span>
+                <div class="cost-input-wrap">
+                  <input type="number" data-cost="${day.id}" data-cost-field="${f}" value="${costs[day.id][f]}" min="0" step="100">
+                  <span class="unit">円</span>
+                </div>
+              </div>
+            `).join('')}
+            <div class="cost-row">
+              <span class="cost-label">${COST_LABELS.misc}</span>
+              <div class="cost-input-wrap">
+                <input type="number" data-cost="${day.id}" data-cost-field="misc" value="${costs[day.id].misc}" min="0" step="100">
+                <span class="unit">円</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    dayAccordionsEl.querySelectorAll('[data-acc-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.day-acc').classList.toggle('open');
+      });
+    });
+  }
+
+  dayAccordionsEl.addEventListener('input', e => {
+    const target = e.target;
+    if (!target.dataset.cost) return;
+    const dayId = target.dataset.cost;
+    const field = target.dataset.costField;
+    costs[dayId][field] = Number(target.value) || 0;
+    persistCosts();
+    const day = ROUTE.find(d => d.id === dayId);
+    setText('acc-total-' + dayId, yen(dayTotal(day)));
+    refreshBudgetComputed();
+    if (ROUTE[activeDay].id === dayId) refreshDaySummaryDisplay(day);
+  });
+
+  function renderOther() {
+    otherListEl.innerHTML = otherItems.length ? otherItems.map((item, i) => `
+      <div class="budget-row" data-i="${i}">
+        <input type="text" class="other-label" value="${String(item.label).replace(/"/g, '&quot;')}" placeholder="項目名（例：お守り代）">
+        <div class="budget-amount-wrap">
+          <input type="number" class="other-amount num" value="${item.amount}" min="0" step="100">
+          <span class="unit">円</span>
+        </div>
+        <button class="icon-btn other-del" aria-label="削除">${ICONS.trash}</button>
+      </div>
+    `).join('') : '<p class="other-empty">自由入力の費用項目はまだありません。</p>';
+
+    otherListEl.querySelectorAll('.budget-row').forEach(row => {
+      const i = Number(row.dataset.i);
+      row.querySelector('.other-label').addEventListener('input', e => {
+        otherItems[i].label = e.target.value;
+        persistOther();
+      });
+      row.querySelector('.other-amount').addEventListener('input', e => {
+        otherItems[i].amount = Number(e.target.value) || 0;
+        persistOther();
+        refreshBudgetComputed();
+      });
+      row.querySelector('.other-del').addEventListener('click', () => {
+        otherItems.splice(i, 1);
+        persistOther();
+        renderOther();
+        refreshBudgetComputed();
+      });
+    });
+  }
+
+  document.getElementById('addOtherRow').addEventListener('click', () => {
+    otherItems.push({ label: '', amount: 0 });
+    persistOther();
+    renderOther();
+    refreshBudgetComputed();
+    const rows = otherListEl.querySelectorAll('.other-label');
+    if (rows.length) rows[rows.length - 1].focus();
+  });
+
+  function refreshBudgetComputed() {
+    const total = tripTotal();
+    const remain = budgetGoal - total;
+    budgetTotalEl.textContent = yen(total);
+    perPersonEl.textContent = yen(total / PEOPLE_COUNT);
+    remainEl.textContent = yen(remain);
+    remainTileEl.classList.toggle('over', remain < 0);
+  }
+
+  renderDayAccordions();
+  renderOther();
+  refreshBudgetComputed();
+
+  /* ================= packing checklist ================= */
+  const PACKING_KEY = 'tohoku-trip:packing';
+  let packingItems = loadJSON(PACKING_KEY, [
+    { name: '着替え（4人×5日分）', checked: false },
+    { name: '日焼け止め', checked: false },
+    { name: '帽子・サングラス', checked: false },
+    { name: '折りたたみ傘・レインコート', checked: false },
+    { name: '汗拭きシート・タオル', checked: false },
+    { name: 'モバイルバッテリー・車載充電器', checked: false },
+    { name: '常備薬・絆創膏・車酔い止め', checked: false },
+    { name: '現金・小銭（高速代・お土産用）', checked: false },
+    { name: 'ETCカード', checked: false },
+    { name: '身分証明書・運転免許証', checked: false },
+    { name: '虫除けスプレー', checked: false },
+    { name: '車内用ゴミ袋', checked: false },
+    { name: 'エコバッグ（お土産用）', checked: false },
+  ]);
+
+  const packingListEl = document.getElementById('packingList');
+  const progressFillEl = document.getElementById('progressFill');
+  const progressTextEl = document.getElementById('progressText');
+
+  function renderPacking() {
+    packingListEl.innerHTML = packingItems.map((item, i) => `
+      <div class="packing-row ${item.checked ? 'checked' : ''}" data-i="${i}">
+        <div class="check-box">${ICONS.check}</div>
+        <span class="packing-label">${item.name}</span>
+        <button class="icon-btn packing-del" aria-label="削除">${ICONS.trash}</button>
+      </div>
+    `).join('');
+
+    packingListEl.querySelectorAll('.packing-row').forEach(row => {
+      const i = Number(row.dataset.i);
+      row.querySelector('.check-box').addEventListener('click', () => toggleChecked(i));
+      row.querySelector('.packing-label').addEventListener('click', () => toggleChecked(i));
+      row.querySelector('.packing-del').addEventListener('click', () => {
+        packingItems.splice(i, 1);
+        saveJSON(PACKING_KEY, packingItems);
+        renderPacking();
+        updateProgress();
+      });
+    });
+  }
+
+  function toggleChecked(i) {
+    packingItems[i].checked = !packingItems[i].checked;
+    saveJSON(PACKING_KEY, packingItems);
+    renderPacking();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = packingItems.length;
+    const done = packingItems.filter(p => p.checked).length;
+    progressFillEl.style.width = total ? `${(done / total) * 100}%` : '0%';
+    progressTextEl.textContent = `${done} / ${total}`;
+  }
+
+  function addPackingItem() {
+    const input = document.getElementById('packingInput');
+    const name = input.value.trim();
+    if (!name) return;
+    packingItems.push({ name, checked: false });
+    saveJSON(PACKING_KEY, packingItems);
+    input.value = '';
+    renderPacking();
+    updateProgress();
+  }
+
+  document.getElementById('packingAddBtn').addEventListener('click', addPackingItem);
+  document.getElementById('packingInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addPackingItem();
+  });
+
+  renderPacking();
+  updateProgress();
+
+  /* ================= wishlist ================= */
+  const WISH_KEY = 'tohoku-trip:wishlist';
+  let wishItems = loadJSON(WISH_KEY, [
+    '十和田湖・奥入瀬渓流',
+    '抱返り渓谷',
+  ]);
+
+  const wishListEl = document.getElementById('wishList');
+  const wishEmptyEl = document.getElementById('wishEmpty');
+
+  function renderWishlist() {
+    wishEmptyEl.style.display = wishItems.length ? 'none' : 'block';
+    wishListEl.innerHTML = wishItems.map((name, i) => `
+      <div class="wish-card" data-i="${i}">
+        <div class="wish-icon">${ICONS.heart}</div>
+        <div class="wish-name">${name}</div>
+        <div class="wish-actions">
+          <a class="wish-map-btn" href="${mapUrl(name)}" target="_blank" rel="noopener noreferrer" aria-label="Googleマップで開く">${ICONS.pin}</a>
+          <button class="icon-btn wish-del" aria-label="削除">${ICONS.trash}</button>
+        </div>
+      </div>
+    `).join('');
+
+    wishListEl.querySelectorAll('.wish-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.closest('.wish-card').dataset.i);
+        wishItems.splice(i, 1);
+        saveJSON(WISH_KEY, wishItems);
+        renderWishlist();
+      });
+    });
+  }
+
+  function addWishItem() {
+    const input = document.getElementById('wishInput');
+    const name = input.value.trim();
+    if (!name) return;
+    wishItems.push(name);
+    saveJSON(WISH_KEY, wishItems);
+    input.value = '';
+    renderWishlist();
+  }
+
+  document.getElementById('wishAddBtn').addEventListener('click', addWishItem);
+  document.getElementById('wishInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addWishItem();
+  });
+
+  renderWishlist();
+
+  /* ================= bottom nav switching ================= */
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const views = {
+    schedule: document.getElementById('view-schedule'),
+    budget: document.getElementById('view-budget'),
+    packing: document.getElementById('view-packing'),
+    wishlist: document.getElementById('view-wishlist'),
+  };
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      Object.entries(views).forEach(([key, el]) => {
+        el.classList.toggle('hidden', key !== btn.dataset.view);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>

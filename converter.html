@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="kg⇔lb、cm⇔inch、℃⇔℉ をリアルタイムで変換できる単位変換ツール。">
+<meta name="theme-color" content="#0b0f1a">
+<title>単位変換ツール | kg・lb / cm・inch / ℃・℉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-a: #0b0f1a;
+    --bg-b: #121a2e;
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --ink: #f1f4fa;
+    --ink-soft: #8a93a8;
+    --cyan: #22d3ee;
+    --violet: #a78bfa;
+    --grad: linear-gradient(135deg, var(--cyan), var(--violet));
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+    background: var(--bg-a);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .num {
+    font-family: "Space Grotesk", "Noto Sans JP", sans-serif;
+  }
+
+  /* ---------- animated background ---------- */
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .orb-1 {
+    width: 420px;
+    height: 420px;
+    background: var(--cyan);
+    top: -140px;
+    left: -120px;
+    animation: float1 14s ease-in-out infinite;
+  }
+
+  .orb-2 {
+    width: 380px;
+    height: 380px;
+    background: var(--violet);
+    bottom: -140px;
+    right: -100px;
+    animation: float2 16s ease-in-out infinite;
+  }
+
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(60px, 40px) scale(1.1); }
+  }
+
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-50px, -30px) scale(1.08); }
+  }
+
+  /* ---------- card ---------- */
+
+  .card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    animation: cardIn 0.6s ease both;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .card-header {
+    padding: 34px 32px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .eyebrow {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--cyan);
+    text-transform: uppercase;
+  }
+
+  .card-title {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .card-body {
+    padding: 30px 32px 32px;
+  }
+
+  label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .field-group {
+    margin-bottom: 26px;
+  }
+
+  .select-wrap {
+    position: relative;
+  }
+
+  .select-wrap::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--ink-soft);
+    border-bottom: 2px solid var(--ink-soft);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 15px 44px 15px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15);
+  }
+
+  select option {
+    background: var(--bg-b);
+    color: var(--ink);
+  }
+
+  .convert-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .input-block {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 16px 54px 16px 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    font-family: "Space Grotesk", inherit;
+    background: rgba(255, 255, 255, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  input[type="number"]::placeholder {
+    color: rgba(241, 244, 250, 0.28);
+  }
+
+  input[type="number"]:focus {
+    outline: none;
+    border-color: var(--cyan);
+    background: rgba(34, 211, 238, 0.06);
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15);
+  }
+
+  input[type="number"].pulse {
+    animation: pulse 0.35s ease;
+  }
+
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.4); }
+    100% { box-shadow: 0 0 0 8px rgba(167, 139, 250, 0); }
+  }
+
+  .unit-label {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cyan);
+    pointer-events: none;
+  }
+
+  .swap-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: var(--bg-a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    box-shadow: 0 8px 24px rgba(167, 139, 250, 0.35);
+    transition: transform 0.4s ease;
+  }
+
+  .swap-icon.spin {
+    transform: rotate(180deg);
+  }
+
+  .swap-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hint {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 420px) {
+    .card-body { padding: 26px 22px 28px; }
+    .card-header { padding: 30px 22px 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="card">
+    <div class="card-header">
+      <p class="eyebrow">Unit Converter</p>
+      <h1 class="card-title">単位変換ツール</h1>
+    </div>
+
+    <div class="card-body">
+      <div class="field-group">
+        <label for="type">変換タイプ</label>
+        <div class="select-wrap">
+          <select id="type">
+            <option value="kg-lb">体重（kg ⇔ lb）</option>
+            <option value="cm-inch">長さ（cm ⇔ inch）</option>
+            <option value="c-f">気温（℃ ⇔ ℉）</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="convert-row">
+        <div class="input-block">
+          <label id="labelLeft" for="valueLeft">kg</label>
+          <div class="input-wrap">
+            <input class="num" type="number" id="valueLeft" inputmode="decimal" placeholder="0">
+            <span class="unit-label" id="unitLeft">kg</span>
+          </div>
+        </div>
+
+        <div class="swap-icon" id="swapIcon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 7h13l-4-4"></path>
+            <path d="M17 17H4l4 4"></path>
+          </svg>
+        </div>
+
+        <div class="input-block">
+          <label id="labelRight" for="valueRight">lb</label>
+          <div class="input-wrap">
+            <input class="num" type="number" id="valueRight" inputmode="decimal" placeholder="0">
+            <span class="unit-label" id="unitRight">lb</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="hint">どちらかの数値を入力すると、もう一方が自動で計算されます。</p>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 Unit Converter</footer>
+
+  <script>
+    const CONFIG = {
+      'kg-lb': {
+        left: 'kg', right: 'lb',
+        toRight: kg => kg * 2.2046226218,
+        toLeft: lb => lb / 2.2046226218,
+      },
+      'cm-inch': {
+        left: 'cm', right: 'inch',
+        toRight: cm => cm / 2.54,
+        toLeft: inch => inch * 2.54,
+      },
+      'c-f': {
+        left: '℃', right: '℉',
+        toRight: c => c * 9 / 5 + 32,
+        toLeft: f => (f - 32) * 5 / 9,
+      },
+    };
+
+    const typeSelect = document.getElementById('type');
+    const valueLeft = document.getElementById('valueLeft');
+    const valueRight = document.getElementById('valueRight');
+    const labelLeft = document.getElementById('labelLeft');
+    const labelRight = document.getElementById('labelRight');
+    const unitLeft = document.getElementById('unitLeft');
+    const unitRight = document.getElementById('unitRight');
+    const swapIcon = document.getElementById('swapIcon');
+
+    function round(n) {
+      return Math.round(n * 10000) / 10000;
+    }
+
+    function pulse(el) {
+      el.classList.remove('pulse');
+      void el.offsetWidth;
+      el.classList.add('pulse');
+    }
+
+    function applyLabels() {
+      const cfg = CONFIG[typeSelect.value];
+      labelLeft.textContent = cfg.left;
+      labelRight.textContent = cfg.right;
+      unitLeft.textContent = cfg.left;
+      unitRight.textContent = cfg.right;
+    }
+
+    function onLeftInput() {
+      const cfg = CONFIG[typeSelect.value];
+      if (valueLeft.value === '') {
+        valueRight.value = '';
+        return;
+      }
+      const n = parseFloat(valueLeft.value);
+      if (Number.isNaN(n)) return;
+      valueRight.value = round(cfg.toRight(n));
+      pulse(valueRight);
+    }
+
+    function onRightInput() {
+      const cfg = CONFIG[typeSelect.value];
+      if (valueRight.value === '') {
+        valueLeft.value = '';
+        return;
+      }
+      const n = parseFloat(valueRight.value);
+      if (Number.isNaN(n)) return;
+      valueLeft.value = round(cfg.toLeft(n));
+      pulse(valueLeft);
+    }
+
+    typeSelect.addEventListener('change', () => {
+      applyLabels();
+      valueLeft.value = '';
+      valueRight.value = '';
+      swapIcon.classList.add('spin');
+      setTimeout(() => swapIcon.classList.remove('spin'), 400);
+      valueLeft.focus();
+    });
+
+    valueLeft.addEventListener('input', onLeftInput);
+    valueRight.addEventListener('input', onRightInput);
+
+    applyLabels();
+  </script>
+
+</body>
+</html>

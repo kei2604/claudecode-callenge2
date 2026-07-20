@@ -14,6 +14,7 @@
     --bg: #fdf8ee;
     --surface: #ffffff;
 
+    
     --ink: #2b2620;
     --ink-soft: #7a7266;
     --border: #ece3d2;
@@ -1131,6 +1132,82 @@
     30%, 50%, 70% { transform: translateX(-5px); }
     40%, 60% { transform: translateX(5px); }
   }
+
+  /* ---------- schedule edit mode ---------- */
+
+  .panel-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .edit-toggle-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    border-radius: 12px;
+    padding: 9px 14px;
+    font-size: 12.5px;
+    font-weight: 700;
+    background: var(--green-soft);
+    color: var(--green);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .edit-toggle-btn svg { width: 14px; height: 14px; }
+  .edit-toggle-btn.active { background: var(--green); color: #fff; }
+
+  .info-field textarea {
+    width: 100%;
+    min-height: 64px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    font-family: inherit;
+    resize: vertical;
+  }
+
+  .info-field textarea:focus { outline: none; border-color: var(--green); }
+
+  .seg-del-btn {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: none;
+    color: var(--coral);
+    background: var(--coral-soft);
+    transition: filter 0.2s ease;
+  }
+
+  .seg-del-btn:hover { filter: brightness(0.96); }
+  .seg-del-btn svg { width: 14px; height: 14px; }
+
+  .add-seg-block { margin-top: 12px; }
+
+  .add-seg-select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    font-family: inherit;
+    background: var(--bg);
+  }
+
+  .add-seg-select:focus { outline: none; border-color: var(--green); }
 </style>
 </head>
 <body>
@@ -1180,7 +1257,10 @@
     <!-- ---------------- schedule view ---------------- -->
     <section class="view" id="view-schedule">
       <div class="section-panel">
-        <h2 class="panel-title">旅行スケジュール</h2>
+        <div class="panel-title-row">
+          <h2 class="panel-title">旅行スケジュール</h2>
+          <button class="edit-toggle-btn" id="editModeToggle" type="button"></button>
+        </div>
         <p class="panel-desc">埼玉から車で出発し、会津芦ノ牧温泉・岩手のわんこそばを経て、秋田・青森を巡る4泊5日の家族旅行です。</p>
 
         <div class="day-tabs" id="dayTabs"></div>
@@ -1318,6 +1398,7 @@
     eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
     eyeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.4 10.4 0 0 1 12 20c-6.4 0-10-8-10-8a18.4 18.4 0 0 1 4.2-5.2M9.9 5.2A9.6 9.6 0 0 1 12 5c6.4 0 10 7 10 7a18.6 18.6 0 0 1-2.2 3.2M14.1 14.1a3 3 0 1 1-4.2-4.2"></path><path d="M2 2l20 20"></path></svg>',
     alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>',
+    edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>',
   };
 
   /* ================= password gate ================= */
@@ -1557,7 +1638,9 @@
   const COSTS_KEY = 'tohoku-trip:costs';
   const OTHER_KEY = 'tohoku-trip:other';
   const GOAL_KEY = 'tohoku-trip:goal';
+  const SEGMENTS_KEY = 'tohoku-trip:segments';
 
+  const savedSegments = loadJSON(SEGMENTS_KEY, {});
   const savedDrive = loadJSON(DRIVE_KEY, {});
   const driveData = {};
   const infoData = loadJSON(INFO_KEY, {});
@@ -1574,6 +1657,7 @@
   };
 
   ROUTE.forEach(day => {
+    if (savedSegments[day.id]) day.segments = savedSegments[day.id];
     if (!costs[day.id]) costs[day.id] = {};
     COST_FIELDS.forEach(f => { if (costs[day.id][f] === undefined) costs[day.id][f] = 0; });
     day.segments.forEach(seg => {
@@ -1595,6 +1679,11 @@
   function persistCosts() { saveJSON(COSTS_KEY, costs); }
   function persistOther() { saveJSON(OTHER_KEY, otherItems); }
   function persistGoal() { saveJSON(GOAL_KEY, budgetGoal); }
+  function persistSegments() {
+    const data = {};
+    ROUTE.forEach(day => { data[day.id] = day.segments; });
+    saveJSON(SEGMENTS_KEY, data);
+  }
 
   /* ================= calculations ================= */
   function driveSegmentsOfDay(day) { return day.segments.filter(s => s.type === 'drive'); }
@@ -1641,7 +1730,29 @@
   const dayTabsEl = document.getElementById('dayTabs');
   const dayDateEl = document.getElementById('dayDate');
   const timelineEl = document.getElementById('timeline');
+  const editToggleBtn = document.getElementById('editModeToggle');
   let activeDay = 0;
+  let editMode = false;
+  let segCounter = 0;
+  ROUTE.forEach(day => day.segments.forEach(seg => {
+    const m = /-new(\d+)$/.exec(seg.id);
+    if (m) segCounter = Math.max(segCounter, Number(m[1]));
+  }));
+
+  function escAttr(s) { return String(s == null ? '' : s).replace(/"/g, '&quot;'); }
+
+  function renderEditToggleBtn() {
+    editToggleBtn.classList.toggle('active', editMode);
+    editToggleBtn.innerHTML = editMode
+      ? ICONS.check + '<span>編集を終了</span>'
+      : ICONS.edit + '<span>編集</span>';
+  }
+
+  editToggleBtn.addEventListener('click', () => {
+    editMode = !editMode;
+    renderEditToggleBtn();
+    renderTimeline();
+  });
 
   function renderDayTabs() {
     dayTabsEl.innerHTML = ROUTE.map((d, i) => `
@@ -1691,14 +1802,35 @@
     `;
   }
 
+  function renderSegTitleBlock(seg) {
+    if (!editMode) return `<div class="spot-title">${seg.title}</div><p class="spot-desc">${seg.desc || ''}</p>`;
+    return `
+      <div class="info-fields">
+        <div class="info-field full"><label>タイトル</label><input type="text" data-seg-edit="${seg.id}" data-seg-field="title" value="${escAttr(seg.title)}"></div>
+        <div class="info-field full"><label>説明</label><textarea data-seg-edit="${seg.id}" data-seg-field="desc">${seg.desc || ''}</textarea></div>
+      </div>
+    `;
+  }
+
+  function renderSegDeleteBtn(seg) {
+    if (!editMode) return '';
+    return `<button class="seg-del-btn" data-del-seg="${seg.id}" type="button">${ICONS.trash}<span>この予定を削除</span></button>`;
+  }
+
   function renderDriveCard(seg) {
     const d = driveData[seg.id];
+    const titleHtml = editMode
+      ? `<div class="drive-grid">
+           <div class="drive-field"><label>出発地</label><input type="text" data-seg-edit="${seg.id}" data-seg-field="from" value="${escAttr(seg.from)}"></div>
+           <div class="drive-field"><label>目的地</label><input type="text" data-seg-edit="${seg.id}" data-seg-field="to" value="${escAttr(seg.to)}"></div>
+         </div>`
+      : `<div class="spot-title">${seg.from} → ${seg.to}</div>`;
     return `
       <div class="spot-card type-drive" data-seg="${seg.id}">
         <div class="spot-icon">${ICONS.drive}</div>
         <div class="spot-body">
           <div class="spot-meta"><span class="type-tag">移動</span></div>
-          <div class="spot-title">${seg.from} → ${seg.to}</div>
+          ${titleHtml}
           <div class="drive-grid">
             <div class="drive-field"><label>出発時間</label><input type="time" data-drive="${seg.id}" data-field="depTime" value="${d.depTime}"></div>
             <div class="drive-field"><label>到着予定</label><input type="time" data-drive="${seg.id}" data-field="arrTime" value="${d.arrTime}"></div>
@@ -1720,6 +1852,7 @@
             </div>
           </div>
           <a class="map-btn" href="${mapDirUrl(seg.mapFrom, seg.mapTo)}" target="_blank" rel="noopener noreferrer">${ICONS.route} ルートをGoogleマップで開く</a>
+          ${renderSegDeleteBtn(seg)}
         </div>
       </div>
     `;
@@ -1731,11 +1864,11 @@
         <div class="spot-icon">${ICONS[iconKey]}</div>
         <div class="spot-body">
           <div class="spot-meta"><span class="type-tag">${TYPE_LABEL[seg.type]}</span></div>
-          <div class="spot-title">${seg.title}</div>
-          <p class="spot-desc">${seg.desc || ''}</p>
+          ${renderSegTitleBlock(seg)}
           ${renderPhotoSlot(seg)}
           ${renderInfoFields(seg)}
           <a class="map-btn" id="mapbtn-${seg.id}" href="${mapUrl(segmentMapQuery(seg))}" target="_blank" rel="noopener noreferrer">${ICONS.pin} Googleマップで開く</a>
+          ${renderSegDeleteBtn(seg)}
         </div>
       </div>
     `;
@@ -1747,9 +1880,9 @@
         <div class="spot-icon">${ICONS[iconKey]}</div>
         <div class="spot-body">
           <div class="spot-meta"><span class="type-tag">${TYPE_LABEL[seg.type]}</span></div>
-          <div class="spot-title">${seg.title}</div>
-          <p class="spot-desc">${seg.desc || ''}</p>
+          ${renderSegTitleBlock(seg)}
           <a class="map-btn" href="${mapUrl(seg.query)}" target="_blank" rel="noopener noreferrer">${ICONS.pin} Googleマップで開く</a>
+          ${renderSegDeleteBtn(seg)}
         </div>
       </div>
     `;
@@ -1813,10 +1946,42 @@
     `;
   }
 
+  const ADD_SEG_TYPES = [
+    { value: 'sight', label: '観光' },
+    { value: 'food', label: '食事' },
+    { value: 'hotel', label: '宿泊' },
+    { value: 'waypoint', label: '立ち寄り' },
+    { value: 'shop', label: '買い物' },
+    { value: 'drive', label: '移動' },
+  ];
+
+  function renderAddSegmentControl(day) {
+    return `
+      <div class="add-seg-block" data-add-day="${day.id}">
+        <select class="add-seg-select" data-add-type="${day.id}">
+          ${ADD_SEG_TYPES.map(t => `<option value="${t.value}">${t.label}</option>`).join('')}
+        </select>
+        <button class="add-row-btn" data-add-segment="${day.id}" type="button">${ICONS.plus}予定を追加</button>
+      </div>
+    `;
+  }
+
+  function createNewSegment(dayId, type) {
+    segCounter += 1;
+    const id = `${dayId}-new${segCounter}`;
+    if (type === 'drive') {
+      driveData[id] = { depTime: '09:00', arrTime: '10:00', distanceKm: 0, durationMin: 0, restStop: '', toll: 0, fuelLocation: '', fuelLiters: 0, fuelCost: 0 };
+      return { id, type: 'drive', from: '出発地', to: '目的地', mapFrom: '', mapTo: '' };
+    }
+    return { id, type, title: '新しい予定', desc: '', query: '' };
+  }
+
   function renderTimeline() {
     const day = ROUTE[activeDay];
     dayDateEl.textContent = `${day.dateLabel}　${day.sub}`;
+    timelineEl.classList.toggle('edit-mode', editMode);
     timelineEl.innerHTML = day.segments.map(renderSegment).join('')
+      + (editMode ? renderAddSegmentControl(day) : '')
       + renderDaySummary(day)
       + renderJournal(day);
   }
@@ -1866,6 +2031,17 @@
       persistJournal();
       return;
     }
+
+    if (target.dataset.segEdit) {
+      const segId = target.dataset.segEdit;
+      const field = target.dataset.segField;
+      const seg = activeRouteDay.segments.find(s => s.id === segId);
+      if (seg) {
+        seg[field] = target.value;
+        persistSegments();
+      }
+      return;
+    }
   });
 
   timelineEl.addEventListener('click', e => {
@@ -1888,6 +2064,31 @@
       const idx = Number(delBtn.dataset.idx);
       journalData[dayId].photos.splice(idx, 1);
       persistJournal();
+      renderTimeline();
+      return;
+    }
+
+    const delSegBtn = e.target.closest('[data-del-seg]');
+    if (delSegBtn) {
+      const segId = delSegBtn.dataset.delSeg;
+      const activeRouteDay = ROUTE[activeDay];
+      const idx = activeRouteDay.segments.findIndex(s => s.id === segId);
+      if (idx !== -1) activeRouteDay.segments.splice(idx, 1);
+      persistSegments();
+      renderTimeline();
+      return;
+    }
+
+    const addSegBtn = e.target.closest('[data-add-segment]');
+    if (addSegBtn) {
+      const dayId = addSegBtn.dataset.addSegment;
+      const activeRouteDay = ROUTE[activeDay];
+      const select = timelineEl.querySelector(`[data-add-type="${dayId}"]`);
+      const type = select ? select.value : 'sight';
+      const newSeg = createNewSegment(dayId, type);
+      activeRouteDay.segments.push(newSeg);
+      persistSegments();
+      if (newSeg.type === 'drive') persistDrive();
       renderTimeline();
       return;
     }
@@ -1920,6 +2121,7 @@
     }
   });
 
+  renderEditToggleBtn();
   renderDayTabs();
   renderTimeline();
 

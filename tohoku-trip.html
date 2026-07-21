@@ -808,6 +808,138 @@
   .add-row-btn:hover { background: var(--green-soft); border-color: var(--green); }
   .add-row-btn svg { width: 16px; height: 16px; }
 
+  .souvenir-panel {
+    margin-top: 20px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 18px;
+    background: #fff;
+  }
+
+  .souvenir-panel .cost-category-title { margin-bottom: 12px; }
+
+  .souvenir-form {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .souvenir-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+
+  .souvenir-field {
+    display: grid;
+    gap: 6px;
+  }
+
+  .souvenir-field label { font-size: 12px; font-weight: 700; color: var(--ink-soft); }
+
+  .souvenir-field input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 13px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--bg);
+  }
+
+  .souvenir-field input:focus { outline: none; border-color: var(--green); }
+
+  .souvenir-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .souvenir-summary .summary-card {
+    background: var(--green-soft);
+    border-radius: 16px;
+    padding: 14px;
+  }
+
+  .souvenir-summary .summary-card .k { font-size: 12px; color: var(--green); font-weight: 700; }
+  .souvenir-summary .summary-card .v { margin-top: 6px; font-size: 18px; font-weight: 900; }
+
+  .souvenir-list { display: grid; gap: 10px; }
+
+  .souvenir-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 14px;
+    background: var(--bg);
+  }
+
+  .souvenir-row.checked .souvenir-name { text-decoration: line-through; color: var(--ink-soft); }
+
+  .souvenir-checkbox {
+    width: 24px;
+    height: 24px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    color: var(--green);
+    cursor: pointer;
+  }
+
+  .souvenir-checkbox.checked { background: var(--green); border-color: var(--green); color: #fff; }
+
+  .souvenir-name {
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 0;
+    word-break: break-word;
+  }
+
+  .souvenir-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+
+  .souvenir-meta .amount {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .souvenir-delete {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .souvenir-empty {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 540px) {
+    .souvenir-grid { grid-template-columns: 1fr; }
+    .souvenir-summary { grid-template-columns: 1fr; }
+    .souvenir-row { grid-template-columns: auto 1fr; }
+    .souvenir-meta { justify-content: flex-start; flex-wrap: wrap; }
+  }
+
   /* ---------- packing ---------- */
 
   .progress-wrap { margin-top: 16px; display: flex; align-items: center; gap: 12px; }
@@ -1301,6 +1433,43 @@
         </div>
 
         <div class="cost-category">
+          <div class="cost-category-title"><span class="cat-icon" id="icon-souvenir-slot"></span>お土産管理</div>
+          <div class="souvenir-panel">
+            <div class="souvenir-form">
+              <div class="souvenir-grid">
+                <div class="souvenir-field">
+                  <label for="souvenirBudgetInput">お土産予算</label>
+                  <input type="number" id="souvenirBudgetInput" min="0" step="100" placeholder="¥20,000">
+                </div>
+                <button class="add-row-btn" id="souvenirBudgetSaveBtn" type="button">予算を保存</button>
+              </div>
+              <div class="souvenir-grid">
+                <div class="souvenir-field">
+                  <label for="souvenirNameInput">お土産名</label>
+                  <input type="text" id="souvenirNameInput" placeholder="例：りんごジュース">
+                </div>
+                <div class="souvenir-field">
+                  <label for="souvenirAmountInput">金額</label>
+                  <input type="number" id="souvenirAmountInput" min="0" step="100" placeholder="¥0">
+                </div>
+                <button class="add-row-btn" id="souvenirAddBtn" type="button">追加</button>
+              </div>
+            </div>
+            <div class="souvenir-summary">
+              <div class="summary-card">
+                <div class="k">お土産合計</div>
+                <div class="v num" id="souvenirTotal">¥0</div>
+              </div>
+              <div class="summary-card">
+                <div class="k">残りお土産予算</div>
+                <div class="v num" id="souvenirRemain">¥0</div>
+              </div>
+            </div>
+            <div class="souvenir-list" id="souvenirList"></div>
+            <p class="souvenir-empty" id="souvenirEmpty">まだ登録されたお土産がありません。</p>
+          </div>
+        </div>
+        <div class="cost-category">
           <div class="cost-category-title"><span class="cat-icon" id="icon-other-slot"></span>その他（自由入力）</div>
           <div class="budget-row-list" id="otherList"></div>
           <button class="add-row-btn" id="addOtherRow">
@@ -1454,6 +1623,7 @@
   const TYPE_LABEL = { sight: '観光', food: '食事', hotel: '宿泊', drive: '移動', waypoint: '立ち寄り', shop: '買い物', arrive: '到着' };
 
   document.getElementById('icon-calendar-slot').innerHTML = ICONS.calendar;
+  document.getElementById('icon-souvenir-slot').innerHTML = ICONS.bag;
   document.getElementById('icon-other-slot').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle></svg>';
 
   function mapUrl(query) {
@@ -1640,6 +1810,9 @@
   const GOAL_KEY = 'tohoku-trip:goal';
   const SEGMENTS_KEY = 'tohoku-trip:segments';
 
+  const SOUVENIR_KEY = 'tohoku-trip:souvenirs';
+  const SOUVENIR_BUDGET_KEY = 'tohoku-trip:souvenirGoal';
+
   const savedSegments = loadJSON(SEGMENTS_KEY, {});
   const savedDrive = loadJSON(DRIVE_KEY, {});
   const driveData = {};
@@ -1649,6 +1822,8 @@
   const costs = loadJSON(COSTS_KEY, {});
   let otherItems = loadJSON(OTHER_KEY, []);
   let budgetGoal = loadJSON(GOAL_KEY, 300000);
+  let souvenirItems = loadJSON(SOUVENIR_KEY, []);
+  let souvenirGoal = loadJSON(SOUVENIR_BUDGET_KEY, 20000);
 
   const COST_FIELDS = ['parking', 'hotel', 'breakfast', 'lunch', 'dinner', 'cafe', 'sightseeing', 'souvenir', 'misc'];
   const COST_LABELS = {
@@ -1679,6 +1854,8 @@
   function persistCosts() { saveJSON(COSTS_KEY, costs); }
   function persistOther() { saveJSON(OTHER_KEY, otherItems); }
   function persistGoal() { saveJSON(GOAL_KEY, budgetGoal); }
+  function persistSouvenirs() { saveJSON(SOUVENIR_KEY, souvenirItems); }
+  function persistSouvenirGoal() { saveJSON(SOUVENIR_BUDGET_KEY, souvenirGoal); }
   function persistSegments() {
     const data = {};
     ROUTE.forEach(day => { data[day.id] = day.segments; });
@@ -1722,8 +1899,12 @@
     return otherItems.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
   }
 
+  function souvenirTotal() {
+    return souvenirItems.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+  }
+
   function tripTotal() {
-    return ROUTE.reduce((sum, day) => sum + dayTotal(day), 0) + otherTotal();
+    return ROUTE.reduce((sum, day) => sum + dayTotal(day), 0) + otherTotal() + souvenirTotal();
   }
 
   /* ================= schedule rendering ================= */
@@ -2236,6 +2417,89 @@
     const rows = otherListEl.querySelectorAll('.other-label');
     if (rows.length) rows[rows.length - 1].focus();
   });
+
+  const souvenirBudgetInput = document.getElementById('souvenirBudgetInput');
+  const souvenirNameInput = document.getElementById('souvenirNameInput');
+  const souvenirAmountInput = document.getElementById('souvenirAmountInput');
+  const souvenirAddBtn = document.getElementById('souvenirAddBtn');
+  const souvenirBudgetSaveBtn = document.getElementById('souvenirBudgetSaveBtn');
+  const souvenirListEl = document.getElementById('souvenirList');
+  const souvenirEmptyEl = document.getElementById('souvenirEmpty');
+
+  function renderSouvenirList() {
+    souvenirListEl.innerHTML = souvenirItems.length ? souvenirItems.map((item, i) => `
+      <div class="souvenir-row ${item.purchased ? 'checked' : ''}" data-i="${i}">
+        <button type="button" class="souvenir-checkbox ${item.purchased ? 'checked' : ''}" data-souvenir-toggle="${i}" aria-label="購入済みチェック">
+          ${item.purchased ? ICONS.check : ''}
+        </button>
+        <div class="souvenir-name">${String(item.label).replace(/"/g, '&quot;')}</div>
+        <div class="souvenir-meta">
+          <div class="amount num">${yen(item.amount)}</div>
+          <button class="souvenir-delete" type="button" data-souvenir-delete="${i}" aria-label="削除">${ICONS.trash}</button>
+        </div>
+      </div>
+    `).join('') : '';
+    souvenirEmptyEl.style.display = souvenirItems.length ? 'none' : 'block';
+
+    souvenirListEl.querySelectorAll('[data-souvenir-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = Number(btn.dataset.souvenirToggle);
+        souvenirItems[index].purchased = !souvenirItems[index].purchased;
+        persistSouvenirs();
+        renderSouvenirList();
+      });
+    });
+
+    souvenirListEl.querySelectorAll('[data-souvenir-delete]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = Number(btn.dataset.souvenirDelete);
+        souvenirItems.splice(index, 1);
+        persistSouvenirs();
+        renderSouvenirList();
+        refreshBudgetComputed();
+      });
+    });
+  }
+
+  function refreshSouvenirInfo() {
+    const total = souvenirTotal();
+    const remain = souvenirGoal - total;
+    document.getElementById('souvenirTotal').textContent = yen(total);
+    document.getElementById('souvenirRemain').textContent = yen(remain);
+  }
+
+  souvenirBudgetInput.value = souvenirGoal;
+  souvenirBudgetInput.addEventListener('input', () => {
+    souvenirGoal = Number(souvenirBudgetInput.value) || 0;
+    persistSouvenirGoal();
+    refreshSouvenirInfo();
+  });
+  souvenirBudgetSaveBtn.addEventListener('click', () => {
+    souvenirGoal = Number(souvenirBudgetInput.value) || 0;
+    persistSouvenirGoal();
+    refreshSouvenirInfo();
+  });
+
+  souvenirAddBtn.addEventListener('click', () => {
+    const label = souvenirNameInput.value.trim();
+    const amount = Number(souvenirAmountInput.value) || 0;
+    if (!label || amount <= 0) return;
+    souvenirItems.push({ label, amount, purchased: false });
+    persistSouvenirs();
+    renderSouvenirList();
+    refreshSouvenirInfo();
+    refreshBudgetComputed();
+    souvenirNameInput.value = '';
+    souvenirAmountInput.value = '';
+    souvenirNameInput.focus();
+  });
+
+  souvenirAmountInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') souvenirAddBtn.click();
+  });
+
+  renderSouvenirList();
+  refreshSouvenirInfo();
 
   function refreshBudgetComputed() {
     const total = tripTotal();
